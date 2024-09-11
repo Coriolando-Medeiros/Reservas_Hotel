@@ -27,7 +27,18 @@ class Cliente
     end
   end
 
-  
+  def ver_clientes
+    
+    if File.exist?("clientes.txt") && !File.zero?("clientes.txt")
+      File.open("clientes.txt") do |arquivo|
+        arquivo.each_line do |linha|
+          puts linha
+        end
+      end
+    else
+      puts "Arquivo inexistente ou vazio!"
+    end
+  end
 end
 
 cliente = Cliente.new
