@@ -25,5 +25,15 @@ class Reserva
     end
   end
 
-
+  def ver_reservas
+    if File.exist?("reservas.txt") && !File.zero?("reservas.txt")
+      File.open("reservas.txt", "r") do |arquivo|
+        arquivo.each_line do |linha|
+          puts linha
+        end
+      end
+    else
+      puts "Arquivo inexistente ou vazio!"
+    end
+  end
 end
