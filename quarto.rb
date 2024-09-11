@@ -7,15 +7,15 @@ class Quarto
     puts "Tipo de quarto"
     puts "1 - Simples | 2 - Duplo | 3 Triplo"
     print "Opção: "
-    @tipo_quarto = gets.chomp.to_i
+    tipo_quarto = gets.chomp.to_i
     print "Número do quarto: "
-    @numero_quarto = gets.chomp.to_i
+    numero_quarto = gets.chomp.to_i
 
-    if @tipo_quarto .between?(1, 3)
-      index = @tipo_quarto - 1
+    if tipo_quarto .between?(1, 3)
+      index = tipo_quarto - 1
       @quartos[index] = 'ocupado'
-      puts "Quarto #{@numero_quarto} #{@tipos_quarto[@tipo_quarto]} está ocupado"
-      return "#{@numero_quarto} ##{@tipos_quarto[@tipo_quarto]}"
+      puts "Quarto #{numero_quarto} #{@tipos_quarto[tipo_quarto]} está ocupado"
+      return "#{numero_quarto} ##{@tipos_quarto[tipo_quarto]}"
     else
       puts "Opção inválida!"
       return nil
@@ -24,3 +24,5 @@ class Quarto
   end
 end
 
+#Fazer uma função para consultar
+#a quantidade de quartos vagos
