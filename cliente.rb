@@ -1,33 +1,38 @@
 class Cliente
   def informacoes
     print "Nome: "
-    @nome = gets.chomp
+    nome = gets.chomp
     puts "Endereço"
     print "Rua: "
-    @rua = gets.chomp.capitalize
+    rua = gets.chomp.capitalize
     print "Número: "
-    @numero = gets.chomp
+    numero = gets.chomp
     print "Bairro: "
-    @bairro = gets.chomp.capitalize
+    bairro = gets.chomp.capitalize
     print "Cidade: "
-    @cidade = gets.chomp.capitalize
+    cidade = gets.chomp.capitalize
     print "Estado: "
-    @estado = gets.chomp.upcase
+    estado = gets.chomp.upcase
     print "Telefone: "
-    @telefone = gets.chomp.capitalize
+    telefone = gets.chomp.capitalize
 
     require_relative 'quarto'
     quarto = Quarto.new
-    @quarto = quarto.quarto
+    quarto = quarto.quarto
+
+    File.open("clientes.txt", "a") do |arquivo|
+      arquivo.puts "Nome: #{nome} | Endereço: #{rua}, #{@numero} - #{bairro} - #{cidade} - #{estado} | Telefone: #{telefone} | Quarto: #{quarto}"
+    end
     
-    if @quarto
-      @clientes = {
-        nome: @nome,
-        endereco: "#{@rua}, #{@numero} - #{@bairro} - #{@cidade} - #{@estado}",
-        telefone: @telefone,
-        quarto: @quarto
+    if quarto
+      clientes = {
+        nome: nome,
+        endereco: "#{rua}, #{numero} - #{bairro} - #{cidade} - #{estado}",
+        telefone: telefone,
+        quarto: quarto
       }
-      return @clientes
+      
+      return clientes
     else
       puts "Sem informações para atribuir!"
       return nil
@@ -35,7 +40,6 @@ class Cliente
   end
 
   def ver_clientes
-    #tenho que pegar as informações do arquivo reservas
 
     if File.exist?("clientes.txt") && !File.zero?("clientes.txt")
       File.open("clientes.txt") do |arquivo|
@@ -48,7 +52,3 @@ class Cliente
     end
   end
 end
-
-cliente = Cliente.new
-cliente.informacoes
-cliente.ver_clientes
