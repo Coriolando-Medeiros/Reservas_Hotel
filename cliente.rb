@@ -4,39 +4,42 @@ require 'cpf_cnpj'
 
 class Cliente
   def informacoes
+    @endereco = []
+    print "Nome Completo: "
+    nome = gets.chomp
+    
     puts "Endereço"
     print "CEP: "
     @cep = gets.chomp
-    cliente = Cliente.new
-    cliente.buscar_endereco(@cep)
     
-    print "Número: "
-    numero = gets.chomp
+    buscar_endereco(@cep)
+    
     print "Telefone: "
     telefone = gets.chomp
-
-    print "Nome: "
-    nome = gets.chomp
+    
     print "CPF: "
     @cpf = gets.chomp
-    cliente.consulta_cpf(@cpf)
-
+    consulta_cpf(@cpf)
+    
     require_relative 'quarto'
-    quarto = Quarto.new
-    quarto = quarto.quarto
-
+    quarto = Quarto.new.quarto
+    
+  
+    endereco_formatado = @endereco.map do |e|
+      "#{e[:rua]}, #{e[:numero]} - #{e[:bairro]} - #{e[:cidade]} - #{e[:estado]} - #{e[:cep]}"
+    end.join(", ")
+    
     File.open("clientes.txt", "a") do |arquivo|
-      arquivo.puts "Nome: #{nome} | Endereço: #{rua}, #{@numero} - #{bairro} - #{cidade} - #{estado} | Telefone: #{telefone} | Quarto: #{quarto}"
+      arquivo.puts "Nome: #{nome} | CPF: #{@cpf_valido || 'Inválido'} | Endereço: #{endereco_formatado} | Telefone: #{telefone} | Quarto: #{quarto}"
     end
     
     if quarto
       clientes = {
         nome: nome,
-        endereco: "#{rua}, #{numero} - #{bairro} - #{cidade} - #{estado}",
+        endereco: endereco_formatado,
         telefone: telefone,
         quarto: quarto
       }
-      
       return clientes
     else
       puts "Sem informações para atribuir!"
@@ -108,11 +111,13 @@ class Cliente
       cpf = CPF.new(cpf)
       cpf_formatdado = cpf.formatted
       puts "O CPF: #{cpf_formatdado} é válido!"
+      @cpf_valido = cpf_formatdado
     else
       cpf = CPF.new(cpf)
       cpf_formatdado = cpf.formatted
       puts "O CPF: #{cpf_formatdado} é inválido!"
     end
+    return @cpf_valido
   end
 
   def ver_clientes
@@ -128,9 +133,3 @@ class Cliente
     end
   end
 end
-
-cliente = Cliente.new
-cliente.informacoes
-
-#Falta ainda fazer o código passar
-#as informações para o arquivo txt
