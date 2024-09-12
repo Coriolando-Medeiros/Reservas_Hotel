@@ -53,6 +53,7 @@ class Cliente
       puts "CEP não encontrado."
     else
       logradouro = address[:logradouro]
+      numero = address[:numero]
       bairro = address[:bairro]
       localidade = address[:localidade]
       uf = address[:uf]
@@ -63,6 +64,11 @@ class Cliente
         logradouro = gets.chomp
       else
         puts "Endereço: #{logradouro}"
+      end
+
+      if numero.nil? || numero.empty?
+        print "Número: "
+        numero = gets.chomp
       end
   
       if bairro.nil? || bairro.empty?
