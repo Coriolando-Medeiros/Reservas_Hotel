@@ -1,5 +1,6 @@
 require 'net/http'
 require 'json'
+require 'cpf_cnpj'
 
 class Cliente
   def informacoes
@@ -17,7 +18,8 @@ class Cliente
     print "Nome: "
     nome = gets.chomp
     print "CPF: "
-    cpf = gets.chomp
+    @cpf = gets.chomp
+    cliente.consulta_cpf(@cpf)
 
     require_relative 'quarto'
     quarto = Quarto.new
@@ -56,7 +58,6 @@ class Cliente
       uf = address[:uf]
       cep = address[:cep]
   
-      # Verifica se alguma informação está faltando
       if logradouro.nil? || logradouro.empty?
         print "Logradouro: "
         logradouro = gets.chomp
@@ -90,6 +91,18 @@ class Cliente
       else
         puts "CEP: #{cep}"
       end
+    end
+  end
+
+  def consulta_cpf(cpf)
+    if CPF.valid?(cpf, strict: true)
+      cpf = CPF.new(cpf)
+      cpf_formatdado = cpf.formatted
+      puts "O CPF: #{cpf_formatdado} é válido!"
+    else
+      cpf = CPF.new(cpf)
+      cpf_formatdado = cpf.formatted
+      puts "O CPF: #{cpf_formatdado} é inválido!"
     end
   end
 
