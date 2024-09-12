@@ -45,6 +45,7 @@ class Cliente
   end
 
   def buscar_endereco(cep)
+    @endereco = []
     uri = URI("https://viacep.com.br/ws/#{cep}/json/")
     response = Net::HTTP.get(uri)
     address = JSON.parse(response, symbolize_names: true)
@@ -97,6 +98,8 @@ class Cliente
       else
         puts "CEP: #{cep}"
       end
+      @endereco << {rua: logradouro, numero: numero, bairro: bairro, cidade: localidade, estado: uf, cep: cep}
+      return @endereco
     end
   end
 
@@ -128,3 +131,6 @@ end
 
 cliente = Cliente.new
 cliente.informacoes
+
+#Falta ainda fazer o código passar
+#as informações para o arquivo txt
